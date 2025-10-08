@@ -5,7 +5,36 @@ from bson import ObjectId
 from pymongo import MongoClient, ASCENDING
 from faker import Faker
 
-app = FastAPI()
+# 📋 Настраиваем порядок и описание секций (tags)
+tags_metadata = [
+    {
+        "name": "Utility",
+        "description": "🔧 Вспомогательные эндпоинты (seed, health, и т.д.)",
+    },
+    {
+        "name": "Students",
+        "description": "👩‍🎓 CRUD операции со студентами",
+    },
+    {
+        "name": "Courses",
+        "description": "📚 CRUD операции с курсами",
+    },
+    {
+        "name": "Enrollments",
+        "description": "📝 CRUD операции с записями студентов на курсы",
+    },
+    {
+        "name": "CastleMock",
+        "description": "🌤️ Пример обращения к внешнему (mock) API",
+    },
+]
+
+app = FastAPI(
+    title="University API",
+    version="0.1.0",
+    openapi_tags=tags_metadata
+)
+
 fake = Faker()
 
 client = MongoClient("mongodb://mongo:27017")
@@ -171,3 +200,16 @@ def seed_data():
 @app.get("/health", tags=["Utility"])
 def health_check():
     return {"status": "ok"}
+
+import requests
+
+# ⚙️ Эндпоинт для обращения к CastleMock
+@app.get("/external/weather", tags=["CastleMock"], summary="Get mock weather from CastleMock")
+def get_mock_weather():
+    try:
+        url = "http://castlemock:8080/castlemock/mock/rest/project/KKWaVE/application/CwpPop/forecast"
+        response = requests.get(url, timeout=3)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        raise HTTPException(status_code=502, detail=f"CastleMock error: {e}")

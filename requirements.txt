@@ -4,3 +4,4 @@ uvicorn
 pymongo
 pydantic[email]
 faker
+requests
