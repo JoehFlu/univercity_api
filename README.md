@@ -1,4 +1,4 @@
-# 📘 University API — FastAPI + MongoDB
+# 📘 University API — FastAPI + MongoDB + CastleMock
 
 ## 🚀 Описание
 **University API** — это простое REST-API на **FastAPI**, работающее в Docker и использующее **MongoDB** для хранения данных о студентах, курсах и записях на них.  
