@@ -44,18 +44,18 @@ class EnrollmentOut(Enrollment):
 def to_out(doc, model):
     return model(id=str(doc["_id"]), **{k: v for k, v in doc.items() if k != "_id"})
 
-@app.post("/students/", response_model=StudentOut)
+@app.post("/students/", response_model=StudentOut, tags=["Students"])
 def create_student(student: Student):
     if students.find_one({"email": student.email}):
         raise HTTPException(status_code=400, detail="Email already registered")
     result = students.insert_one(student.dict())
     return to_out(students.find_one({"_id": result.inserted_id}), StudentOut)
 
-@app.get("/students/", response_model=List[StudentOut])
+@app.get("/students/", response_model=List[StudentOut], tags=["Students"])
 def list_students():
     return [to_out(doc, StudentOut) for doc in students.find()]
 
-@app.put("/students/{student_id}", response_model=StudentOut)
+@app.put("/students/{student_id}", response_model=StudentOut, tags=["Students"])
 def update_student(student_id: str, student: Student):
     result = students.update_one(
         {"_id": ObjectId(student_id)},
@@ -66,7 +66,7 @@ def update_student(student_id: str, student: Student):
     updated = students.find_one({"_id": ObjectId(student_id)})
     return to_out(updated, StudentOut)
 
-@app.delete("/students/{student_id}", status_code=status.HTTP_200_OK)
+@app.delete("/students/{student_id}", status_code=status.HTTP_200_OK, tags=["Students"])
 def delete_student(student_id: str):
     result = students.delete_one({"_id": ObjectId(student_id)})
     if result.deleted_count == 0:
@@ -74,16 +74,16 @@ def delete_student(student_id: str):
     enrollments.delete_many({"student_id": ObjectId(student_id)})
     return {"status": "deleted", "entity": "student", "id": student_id}
 
-@app.post("/courses/", response_model=CourseOut)
+@app.post("/courses/", response_model=CourseOut, tags=["Courses"])
 def create_course(course: Course):
     result = courses.insert_one(course.dict())
     return to_out(courses.find_one({"_id": result.inserted_id}), CourseOut)
 
-@app.get("/courses/", response_model=List[CourseOut])
+@app.get("/courses/", response_model=List[CourseOut], tags=["Courses"])
 def list_courses():
     return [to_out(doc, CourseOut) for doc in courses.find()]
 
-@app.put("/courses/{course_id}", response_model=CourseOut)
+@app.put("/courses/{course_id}", response_model=CourseOut, tags=["Courses"])
 def update_course(course_id: str, course: Course):
     result = courses.update_one(
         {"_id": ObjectId(course_id)},
@@ -94,7 +94,7 @@ def update_course(course_id: str, course: Course):
     updated = courses.find_one({"_id": ObjectId(course_id)})
     return to_out(updated, CourseOut)
 
-@app.delete("/courses/{course_id}", status_code=status.HTTP_200_OK)
+@app.delete("/courses/{course_id}", status_code=status.HTTP_200_OK, tags=["Courses"])
 def delete_course(course_id: str):
     result = courses.delete_one({"_id": ObjectId(course_id)})
     if result.deleted_count == 0:
@@ -102,8 +102,8 @@ def delete_course(course_id: str):
     enrollments.delete_many({"course_id": ObjectId(course_id)})
     return {"status": "deleted", "entity": "course", "id": course_id}
 
-@app.post("/enrollments/", response_model=EnrollmentOut)
-def enroll(enrollment: Enrollment):
+@app.post("/enrollments/", response_model=EnrollmentOut, tags=["Enrollments"])
+def create_enrollment(enrollment: Enrollment):
     if not students.find_one({"_id": ObjectId(enrollment.student_id)}):
         raise HTTPException(status_code=404, detail="Student not found")
     if not courses.find_one({"_id": ObjectId(enrollment.course_id)}):
@@ -114,11 +114,11 @@ def enroll(enrollment: Enrollment):
     })
     return to_out(enrollments.find_one({"_id": result.inserted_id}), EnrollmentOut)
 
-@app.get("/enrollments/", response_model=List[EnrollmentOut])
+@app.get("/enrollments/", response_model=List[EnrollmentOut], tags=["Enrollments"])
 def list_enrollments():
     return [to_out(doc, EnrollmentOut) for doc in enrollments.find()]
 
-@app.put("/enrollments/{enrollment_id}", response_model=EnrollmentOut)
+@app.put("/enrollments/{enrollment_id}", response_model=EnrollmentOut, tags=["Enrollments"])
 def update_enrollment(enrollment_id: str, enrollment: Enrollment):
     # Проверяем, что студент и курс существуют
     if not students.find_one({"_id": ObjectId(enrollment.student_id)}):
@@ -136,14 +136,14 @@ def update_enrollment(enrollment_id: str, enrollment: Enrollment):
     updated = enrollments.find_one({"_id": ObjectId(enrollment_id)})
     return to_out(updated, EnrollmentOut)
 
-@app.delete("/enrollments/{enrollment_id}", status_code=status.HTTP_200_OK)
+@app.delete("/enrollments/{enrollment_id}", status_code=status.HTTP_200_OK, tags=["Enrollments"])
 def delete_enrollment(enrollment_id: str):
     result = enrollments.delete_one({"_id": ObjectId(enrollment_id)})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Enrollment not found")
     return {"status": "deleted", "entity": "enrollment", "id": enrollment_id}
 
-@app.post("/seed/")
+@app.post("/seed/", tags=["Utility"])
 def seed_data():
     students.delete_many({})
     courses.delete_many({})
@@ -168,6 +168,6 @@ def seed_data():
 
     return {"message": "Database seeded successfully"}
 
-@app.get("/health")
+@app.get("/health", tags=["Utility"])
 def health_check():
     return {"status": "ok"}
