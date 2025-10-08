@@ -1,5 +1,4 @@
-
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, EmailStr
 from typing import List
 from bson import ObjectId
@@ -56,6 +55,25 @@ def create_student(student: Student):
 def list_students():
     return [to_out(doc, StudentOut) for doc in students.find()]
 
+@app.put("/students/{student_id}", response_model=StudentOut)
+def update_student(student_id: str, student: Student):
+    result = students.update_one(
+        {"_id": ObjectId(student_id)},
+        {"$set": student.dict()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Student not found")
+    updated = students.find_one({"_id": ObjectId(student_id)})
+    return to_out(updated, StudentOut)
+
+@app.delete("/students/{student_id}", status_code=status.HTTP_200_OK)
+def delete_student(student_id: str):
+    result = students.delete_one({"_id": ObjectId(student_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Student not found")
+    enrollments.delete_many({"student_id": ObjectId(student_id)})
+    return {"status": "deleted", "entity": "student", "id": student_id}
+
 @app.post("/courses/", response_model=CourseOut)
 def create_course(course: Course):
     result = courses.insert_one(course.dict())
@@ -64,6 +82,25 @@ def create_course(course: Course):
 @app.get("/courses/", response_model=List[CourseOut])
 def list_courses():
     return [to_out(doc, CourseOut) for doc in courses.find()]
+
+@app.put("/courses/{course_id}", response_model=CourseOut)
+def update_course(course_id: str, course: Course):
+    result = courses.update_one(
+        {"_id": ObjectId(course_id)},
+        {"$set": course.dict()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Course not found")
+    updated = courses.find_one({"_id": ObjectId(course_id)})
+    return to_out(updated, CourseOut)
+
+@app.delete("/courses/{course_id}", status_code=status.HTTP_200_OK)
+def delete_course(course_id: str):
+    result = courses.delete_one({"_id": ObjectId(course_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Course not found")
+    enrollments.delete_many({"course_id": ObjectId(course_id)})
+    return {"status": "deleted", "entity": "course", "id": course_id}
 
 @app.post("/enrollments/", response_model=EnrollmentOut)
 def enroll(enrollment: Enrollment):
@@ -80,6 +117,31 @@ def enroll(enrollment: Enrollment):
 @app.get("/enrollments/", response_model=List[EnrollmentOut])
 def list_enrollments():
     return [to_out(doc, EnrollmentOut) for doc in enrollments.find()]
+
+@app.put("/enrollments/{enrollment_id}", response_model=EnrollmentOut)
+def update_enrollment(enrollment_id: str, enrollment: Enrollment):
+    # Проверяем, что студент и курс существуют
+    if not students.find_one({"_id": ObjectId(enrollment.student_id)}):
+        raise HTTPException(status_code=404, detail="Student not found")
+    if not courses.find_one({"_id": ObjectId(enrollment.course_id)}):
+        raise HTTPException(status_code=404, detail="Course not found")
+
+    result = enrollments.update_one(
+        {"_id": ObjectId(enrollment_id)},
+        {"$set": enrollment.dict()}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Enrollment not found")
+
+    updated = enrollments.find_one({"_id": ObjectId(enrollment_id)})
+    return to_out(updated, EnrollmentOut)
+
+@app.delete("/enrollments/{enrollment_id}", status_code=status.HTTP_200_OK)
+def delete_enrollment(enrollment_id: str):
+    result = enrollments.delete_one({"_id": ObjectId(enrollment_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Enrollment not found")
+    return {"status": "deleted", "entity": "enrollment", "id": enrollment_id}
 
 @app.post("/seed/")
 def seed_data():
@@ -105,3 +167,7 @@ def seed_data():
         })
 
     return {"message": "Database seeded successfully"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
