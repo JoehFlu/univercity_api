@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restEvent>
+    <id>QgmgEi</id>
+    <resourceName>Forecast</resourceName>
+    <startDate>2025-11-02T02:09:23.182Z</startDate>
+    <endDate>2025-11-02T02:09:23.183Z</endDate>
+    <request>
+        <body></body>
+        <uri>/forecast</uri>
+        <httpMethod>GET</httpMethod>
+        <httpHeaders/>
+        <httpParameters>
+            <httpParameter>
+                <name>accept</name>
+                <value>*/*</value>
+            </httpParameter>
+            <httpParameter>
+                <name>connection</name>
+                <value>keep-alive</value>
+            </httpParameter>
+            <httpParameter>
+                <name>user-agent</name>
+                <value>python-requests/2.32.5</value>
+            </httpParameter>
+            <httpParameter>
+                <name>host</name>
+                <value>castlemock:8080</value>
+            </httpParameter>
+            <httpParameter>
+                <name>accept-encoding</name>
+                <value>gzip, deflate</value>
+            </httpParameter>
+        </httpParameters>
+    </request>
+    <response>
+        <body>{
+  "city": "Berlin",
+  "temperature": 18,
+  "condition": "Cloudy"
+}
+</body>
+        <mockResponseName>Cloudy</mockResponseName>
+        <httpStatusCode>200</httpStatusCode>
+        <httpHeaders/>
+        <contentEncodings/>
+    </response>
+    <projectId>QXcx23</projectId>
+    <applicationId>x0T4QS</applicationId>
+    <resourceId>hSzwpm</resourceId>
+    <methodId>ME539S</methodId>
+</restEvent>

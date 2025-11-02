@@ -8,6 +8,7 @@ services:
       - "8000:8000"
     depends_on:
       - mongo
+      - castlemock
     environment:
       - MONGO_URL=mongodb://mongo:27017
     restart: always
@@ -18,7 +19,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
+      - ./mongo_data:/data/db
     restart: always
 
   castlemock:
@@ -29,9 +30,5 @@ services:
     environment:
       - SERVER_PORT=8080
     volumes:
-      - castlemock_data:/root/.castlemock
+      - ./castlemock_data_persistent:/root/.castlemock
     restart: unless-stopped
-
-volumes:
-  mongo_data:
-  castlemock_data:

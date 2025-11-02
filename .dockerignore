@@ -1,0 +1,4 @@
+castlemock_data_persistent/
+mongo_data/
+__pycache__/
+*.pyc

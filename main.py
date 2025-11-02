@@ -206,7 +206,7 @@ import requests
 @app.get("/external/weather", tags=["CastleMock"], summary="Get mock weather from CastleMock")
 def get_mock_weather():
     try:
-        url = "http://castlemock:8080/castlemock/mock/rest/project/KKWaVE/application/CwpPop/forecast"
+        url = "http://castlemock:8080/castlemock/mock/rest/project/QXcx23/application/x0T4QS/forecast"
         response = requests.get(url, timeout=3)
         response.raise_for_status()
         return response.json()
@@ -216,7 +216,7 @@ def get_mock_weather():
 @app.post("/external/auth/login", tags=["CastleMock"], summary="Mock user login via CastleMock")
 def mock_login():
     try:
-        url = "http://castlemock:8080/castlemock/mock/rest/project/yD1ASq/application/SdRMOR/auth"
+        url = "http://castlemock:8080/castlemock/mock/rest/project/QXcx23/application/xpABue/auth"
         payload = {"username": "demo_user", "password": "secret"}
         response = requests.post(url, json=payload, timeout=3)
         response.raise_for_status()
@@ -224,21 +224,11 @@ def mock_login():
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=502, detail=f"CastleMock error: {e}")
 
-@app.put("/external/inventory/{item_id}", tags=["CastleMock"], summary="Mock update inventory via CastleMock")
-def update_inventory(item_id: int):
+@app.put("/external/user/update", tags=["CastleMock"], summary="Mock user update via CastleMock")
+def update_user_profile():
     try:
-        url = f"http://castlemock:8080/castlemock/mock/rest/project/XmCEPD/application/Ge49Eh/inventory/{item_id}"
+        url = "http://castlemock:8080/castlemock/mock/rest/project/QXcx23/application/kCpnzj/user/update"
         response = requests.put(url, timeout=3)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=502, detail=f"CastleMock error: {e}")
-
-@app.delete("/external/payments/cancel/{payment_id}", tags=["CastleMock"], summary="Mock cancel payment via CastleMock")
-def cancel_payment(payment_id: int):
-    try:
-        url = f"http://castlemock:8080/castlemock/mock/rest/project/7DTnzs/application/RmQhSL/payments/cancel/{payment_id}"
-        response = requests.delete(url, timeout=3)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:

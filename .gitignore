@@ -1,0 +1,6 @@
+# MongoDB и временные файлы
+mongo_data/
+__pycache__/
+
+# CastleMock конфиги - только нужное
+castlemock_data_persistent/logs/

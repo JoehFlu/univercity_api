@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restMockResponse>
+    <id>QoFDFF</id>
+    <name>Returns success message: auth</name>
+    <body>{
+  "status": "success",
+  "token": "abc123xyz",
+  "user": {
+    "username": "demo_user"
+  }
+}
+</body>
+    <methodId>GUuwgN</methodId>
+    <status>ENABLED</status>
+    <httpStatusCode>200</httpStatusCode>
+    <usingExpressions>false</usingExpressions>
+    <httpHeaders/>
+    <contentEncodings/>
+    <parameterQueries/>
+    <xpathExpressions/>
+    <jsonPathExpressions/>
+    <headerQueries/>
+</restMockResponse>

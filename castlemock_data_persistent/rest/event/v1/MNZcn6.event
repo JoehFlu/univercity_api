@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restEvent>
+    <id>MNZcn6</id>
+    <resourceName>Returns mock weather forecast data</resourceName>
+    <startDate>2025-11-02T01:34:36.264Z</startDate>
+    <endDate>2025-11-02T01:34:36.266Z</endDate>
+    <request>
+        <body></body>
+        <uri>/forecast</uri>
+        <httpMethod>GET</httpMethod>
+        <httpHeaders/>
+        <httpParameters>
+            <httpParameter>
+                <name>user-agent</name>
+                <value>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-ch-ua-platform</name>
+                <value>"Windows"</value>
+            </httpParameter>
+            <httpParameter>
+                <name>accept-language</name>
+                <value>ru,en;q=0.9,en-GB;q=0.8,en-US;q=0.7</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-fetch-site</name>
+                <value>none</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-fetch-dest</name>
+                <value>document</value>
+            </httpParameter>
+            <httpParameter>
+                <name>cookie</name>
+                <value>token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjYXN0bGVtb2NrIiwiZXhwIjoxNzYyNjUxMzA4LCJ1c2VySWQiOiJUMW5VR2MifQ.IIVnB-p-L0GyfolafzD7BWvFh0SQV_EfEZs4tZzkFZUlBcE6ZJ5CNF5jWeGrIzYmGBjymZ-nYPgSem50S_JA09UfVA3TPMeURKl8dNfSny8og-goH1wmH0CjtFfbDZEXMiEiLhk36X-jTxXe_uh4n6wXvlWgVL0H0oYxrBP6gDzWa8eRDtUBkPG-oqvR18RUeHFVmmur1b7uYRl44sJpf-VRBOmRgUvLhC4PMoNZbYSCmmba8N-irVB04VHXRGf1HnfY8I0_L5L8UJ28AR4wqgBCLBSxCUaQ8D5KtF0J6XXC4UsO9Co6HwvOBHErraB8YFCRldwus-S7ZNj3SM4VPQ</value>
+            </httpParameter>
+            <httpParameter>
+                <name>connection</name>
+                <value>keep-alive</value>
+            </httpParameter>
+            <httpParameter>
+                <name>upgrade-insecure-requests</name>
+                <value>1</value>
+            </httpParameter>
+            <httpParameter>
+                <name>accept</name>
+                <value>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-ch-ua-mobile</name>
+                <value>?0</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-ch-ua</name>
+                <value>"Chromium";v="142", "Microsoft Edge";v="142", "Not_A Brand";v="99"</value>
+            </httpParameter>
+            <httpParameter>
+                <name>accept-encoding</name>
+                <value>gzip, deflate, br, zstd</value>
+            </httpParameter>
+            <httpParameter>
+                <name>host</name>
+                <value>localhost:8080</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-fetch-user</name>
+                <value>?1</value>
+            </httpParameter>
+            <httpParameter>
+                <name>sec-fetch-mode</name>
+                <value>navigate</value>
+            </httpParameter>
+        </httpParameters>
+    </request>
+    <response>
+        <body>{
+  "city": "Berlin",
+  "temperature": 18,
+  "condition": "Cloudy"
+}
+</body>
+        <mockResponseName>forecast</mockResponseName>
+        <httpStatusCode>200</httpStatusCode>
+        <httpHeaders/>
+        <contentEncodings/>
+    </response>
+    <projectId>QXcx23</projectId>
+    <applicationId>x0T4QS</applicationId>
+    <resourceId>hSzwpm</resourceId>
+    <methodId>5hXjwY</methodId>
+</restEvent>

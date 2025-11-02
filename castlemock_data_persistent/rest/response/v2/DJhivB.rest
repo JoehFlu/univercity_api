@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restMockResponse>
+    <id>DJhivB</id>
+    <name>Returns success message after profile update</name>
+    <body>{
+  "status": "updated"
+}
+</body>
+    <methodId>LsaN0d</methodId>
+    <status>ENABLED</status>
+    <httpStatusCode>200</httpStatusCode>
+    <usingExpressions>false</usingExpressions>
+    <httpHeaders/>
+    <contentEncodings/>
+    <parameterQueries/>
+    <xpathExpressions/>
+    <jsonPathExpressions/>
+    <headerQueries/>
+</restMockResponse>

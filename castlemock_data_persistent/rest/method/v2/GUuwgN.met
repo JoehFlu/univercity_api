@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restMethod>
+    <id>GUuwgN</id>
+    <name>login</name>
+    <resourceId>GIIUNm</resourceId>
+    <httpMethod>POST</httpMethod>
+    <status>MOCKED</status>
+    <responseStrategy>RANDOM</responseStrategy>
+    <currentResponseSequenceIndex>0</currentResponseSequenceIndex>
+</restMethod>

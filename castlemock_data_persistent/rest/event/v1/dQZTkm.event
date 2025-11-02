@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restEvent>
+    <id>dQZTkm</id>
+    <resourceName>login</resourceName>
+    <startDate>2025-11-02T02:03:14.750Z</startDate>
+    <endDate>2025-11-02T02:03:14.757Z</endDate>
+    <request>
+        <body>{"username": "demo_user", "password": "secret"}</body>
+        <contentType>application/json</contentType>
+        <uri>/auth</uri>
+        <httpMethod>POST</httpMethod>
+        <httpHeaders/>
+        <httpParameters>
+            <httpParameter>
+                <name>host</name>
+                <value>castlemock:8080</value>
+            </httpParameter>
+            <httpParameter>
+                <name>content-type</name>
+                <value>application/json</value>
+            </httpParameter>
+            <httpParameter>
+                <name>accept</name>
+                <value>*/*</value>
+            </httpParameter>
+            <httpParameter>
+                <name>user-agent</name>
+                <value>python-requests/2.32.5</value>
+            </httpParameter>
+            <httpParameter>
+                <name>content-length</name>
+                <value>47</value>
+            </httpParameter>
+            <httpParameter>
+                <name>accept-encoding</name>
+                <value>gzip, deflate</value>
+            </httpParameter>
+            <httpParameter>
+                <name>connection</name>
+                <value>keep-alive</value>
+            </httpParameter>
+        </httpParameters>
+    </request>
+    <response>
+        <body>{
+  "status": "success",
+  "token": "abc123xyz",
+  "user": {
+    "username": "demo_user"
+  }
+}
+</body>
+        <mockResponseName>Mock login response</mockResponseName>
+        <httpStatusCode>200</httpStatusCode>
+        <httpHeaders/>
+        <contentEncodings/>
+    </response>
+    <projectId>QXcx23</projectId>
+    <applicationId>xpABue</applicationId>
+    <resourceId>GIIUNm</resourceId>
+    <methodId>GUuwgN</methodId>
+</restEvent>

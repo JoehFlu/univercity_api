@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<restMethod>
+    <id>ME539S</id>
+    <name>Forecast</name>
+    <resourceId>hSzwpm</resourceId>
+    <httpMethod>GET</httpMethod>
+    <status>MOCKED</status>
+    <responseStrategy>RANDOM</responseStrategy>
+    <currentResponseSequenceIndex>0</currentResponseSequenceIndex>
+</restMethod>
