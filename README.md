@@ -2,29 +2,32 @@
 
 ## 🚀 Описание
 
-**University API** — это простое REST-API на **FastAPI**, работающее в Docker и использующее **MongoDB** для хранения данных о студентах, курсах и записях на них.  
-Реализован полный **CRUD** для всех сущностей, сидинг тестовых данных и health-check для мониторинга состояния API + интеграция с CastleMock для имитации внешних API.
+**University API** — это простой REST API на **FastAPI** с **MongoDB** в Docker.  
+В проекте есть CRUD для студентов, курсов и записей на курс, а также `seed`, проверка состояния и несколько мок-эндпоинтов через **CastleMock**.
 
 ---
 
 ## ⚙️ Стек технологий
 
-- 🐍 **FastAPI** — backend и REST API  
-- 🍃 **MongoDB** — база данных  
-- 🏰 **CastleMock** — имитация внешних API  
-- 🐳 **Docker Compose** — контейнеризация и запуск окружения
+| Технология | Назначение |
+|------------|------------|
+| 🐍 FastAPI | REST API и backend |
+| 🍃 MongoDB | Хранение данных |
+| 🏰 CastleMock | Моки внешних API |
+| 🐳 Docker Compose | Запуск всего окружения |
 
 ---
 
 ## 📦 Структура проекта
 
-```
+```text
 univercity_api/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── main.py
 ├── requirements.txt
-└── README.md
+├── README.md
+└── castlemock_data_persistent/
 ```
 
 ---
@@ -41,20 +44,21 @@ univercity_api/
    docker compose up --build
    ```
 
-3. Проверить запущенные сервисы:
+3. Проверь, что контейнеры запущены:
    ```bash
    docker ps
    ```
 
 ---
 
-## 🗑️ Остановка и очистка контейнеров
+## 🗑️ Остановка и очистка
 
 ```bash
 docker compose down
 ```
 
-Если хочешь очистить данные MongoDB:
+Если хочешь удалить данные MongoDB:
+
 ```bash
 docker compose down -v
 ```
@@ -63,138 +67,102 @@ docker compose down -v
 
 ## ⚙️ Требования
 
-Перед запуском убедись, что установлено:
-- Docker >= 27.0
-- Docker Compose >= 1.29
-- Python >= 3.12 (если хочешь запускать локально без Docker)
-- WSL2 (если на Windows)
+| Требование | Примечание |
+|------------|------------|
+| Docker | Нужен для запуска проекта |
+| Docker Compose | Нужен для запуска сервисов |
+| Python 3.11+ | Только если запускаешь что-то локально вне Docker |
 
 Проверка:
+
 ```bash
 docker --version
 docker compose version
 python3 --version
 ```
+
 ---
 
 ## 🌐 Доступ к сервисам
 
 | Сервис | URL | Описание |
 |--------|-----|-----------|
-| **FastAPI Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | Swagger UI с API |
+| **FastAPI Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | Swagger UI |
 | **MongoDB** | `mongodb://localhost:27017` | База данных |
-| **CastleMock** | [http://localhost:8080/castlemock](http://localhost:8080/castlemock) | Интерфейс для создания моков |
+| **CastleMock** | [http://localhost:8080/castlemock](http://localhost:8080/castlemock) | Интерфейс моков |
 
 ---
 
 ## 📚 Основные эндпоинты FastAPI
 
-### 🔧 Вспомогательные эндпоинты
+### 🔧 Utility
 
 | Метод | Эндпоинт | Описание |
-|--------|-----------|-----------|
-| `POST` | `/seed` | Сгенерировать тестовые данные |
-| `GET` | `/health` | Проверка состояния сервиса |
+|-------|----------|-----------|
+| `POST` | `/seed/` | Заполнить базу тестовыми данными |
+| `GET` | `/health` | Проверить состояние API |
 
 ### 👩‍🎓 Students
 
 | Метод | Эндпоинт | Описание |
-|--------|-----------|-----------|
-| `GET` | `/students` | Получить всех студентов |
-| `POST` | `/students` | Создать нового студента |
+|-------|----------|-----------|
+| `GET` | `/students/` | Получить всех студентов |
+| `POST` | `/students/` | Создать нового студента |
 | `PUT` | `/students/{id}` | Обновить студента |
 | `DELETE` | `/students/{id}` | Удалить студента |
 
 ### 📚 Courses
 
 | Метод | Эндпоинт | Описание |
-|--------|-----------|-----------|
-| `GET` | `/courses` | Получить список курсов |
-| `POST` | `/courses` | Добавить курс |
+|-------|----------|-----------|
+| `GET` | `/courses/` | Получить список курсов |
+| `POST` | `/courses/` | Добавить курс |
 | `PUT` | `/courses/{id}` | Обновить курс |
 | `DELETE` | `/courses/{id}` | Удалить курс |
 
 ### 📝 Enrollments
 
 | Метод | Эндпоинт | Описание |
-|--------|-----------|-----------|
-| `GET` | `/enrollments` | Получить все записи |
-| `POST` | `/enrollments` | Записать студента на курс |
+|-------|----------|-----------|
+| `GET` | `/enrollments/` | Получить все записи |
+| `POST` | `/enrollments/` | Записать студента на курс |
+| `PUT` | `/enrollments/{id}` | Обновить запись |
 | `DELETE` | `/enrollments/{id}` | Удалить запись |
 
----
+### 🏰 CastleMock
 
-## 🏰 CastleMock — имитация внешних API
-
-**CastleMock** используется для создания и тестирования фейковых внешних сервисов локально.  
-Это позволяет проверять интеграции без подключения к реальным API.
-
-**Интерфейс:**  
-👉 [http://localhost:8080/castlemock](http://localhost:8080/castlemock)
-
-### 🌦 Пример мок-ответа
-```json
-{
-  "city": "Berlin",
-  "temperature": 18,
-  "condition": "Cloudy"
-}
-```
+| Метод | Эндпоинт | Описание |
+|-------|----------|-----------|
+| `GET` | `/external/weather` | Мок погоды |
+| `POST` | `/external/auth/login` | Мок логина |
+| `PUT` | `/external/user/update` | Мок обновления профиля |
 
 ---
 
-## 🔄 Примеры запросов
+## 📌 Коды ответов
 
-### Создание студента
-```bash
-curl -X POST "http://localhost:8000/students/" -H "Content-Type: application/json" -d '{"name": "Alice", "age": 21, "email": "alice@example.com"}'
-```
-
-### Обновление студента
-```bash
-curl -X PUT "http://localhost:8000/students/68e5a4bfc48eb29e7c491b3b" -H "Content-Type: application/json" -d '{"name": "New Name", "age": 25, "email": "new@example.com"}'
-```
-
-**Ответ:**
-```json
-{
-  "id": "68e5a4bfc48eb29e7c491b3b",
-  "name": "New Name",
-  "age": 25,
-  "email": "new@example.com"
-}
-```
-
-### Удаление студента
-```bash
-curl -X DELETE "http://localhost:8000/students/68e5a4bfc48eb29e7c491b3b"
-```
-
-**Ответ:**
-```json
-{
-  "status": "deleted",
-  "entity": "student",
-  "id": "68e5a4bfc48eb29e7c491b3b"
-}
-```
+| Код | Когда возвращается |
+|-----|-------------------|
+| `200` | Успешный ответ |
+| `400` | Битый `id`, дубликат email или enrollment |
+| `404` | Сущность не найдена |
+| `422` | Ошибка валидации тела запроса |
+| `502` | CastleMock недоступен |
 
 ---
 
-## 🧪 Сидинг тестовых данных
-Создаёт случайные данные (5 студентов, 3 курса и зачисления между ними):
-```bash
-curl -X POST "http://localhost:8000/seed/"
-```
+## 🏰 CastleMock
+
+CastleMock хранит моки в `castlemock_data_persistent/`, чтобы они не пропадали между перезапусками.
 
 ---
 
-## 🩺 Проверка состояния
+## 🧪 Пример запроса
+
+Создание студента:
+
 ```bash
-curl http://localhost:8000/health
+curl -X POST "http://localhost:8000/students/" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Alice","age":21,"email":"alice@example.com"}'
 ```
-**Ответ:**
-```json
-{"status": "ok"}
-```
----

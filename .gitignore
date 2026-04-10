@@ -1,6 +1,8 @@
 # MongoDB и временные файлы
 mongo_data/
 __pycache__/
+.pytest_cache/
+.env
 
 # CastleMock конфиги - только нужное
 castlemock_data_persistent/logs/
