@@ -3,6 +3,8 @@ mongo_data/
 __pycache__/
 .pytest_cache/
 .env
+.venv/
+.DS_Store
 
 # CastleMock конфиги - только нужное
 castlemock_data_persistent/logs/

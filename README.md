@@ -22,6 +22,13 @@
 
 ```text
 university_api/
+├── app/
+│   ├── routers/
+│   ├── app.py
+│   ├── config.py
+│   ├── db.py
+│   ├── models.py
+│   └── utils.py
 ├── Dockerfile
 ├── docker-compose.yml
 ├── main.py
@@ -29,6 +36,15 @@ university_api/
 ├── README.md
 └── castlemock_data_persistent/
 ```
+
+Коротко по структуре:
+
+- `main.py` — точка входа приложения.
+- `app/app.py` — создание `FastAPI` и подключение роутов.
+- `app/db.py` — подключение к MongoDB и коллекции.
+- `app/models.py` — Pydantic-модели запросов и ответов.
+- `app/routers/` — эндпоинты по сущностям: students, courses, enrollments, utility, external.
+- `app/utils.py` — общие вспомогательные функции.
 
 ---
 
@@ -157,12 +173,19 @@ CastleMock хранит моки в `castlemock_data_persistent/`, чтобы о
 
 ---
 
-## 🧪 Пример запроса
+## 🧪 Примеры запросов
 
-Создание студента:
+Быстрая проверка:
 
 ```bash
-curl -X POST "http://localhost:8000/students/" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Alice","age":21,"email":"alice@example.com"}'
+curl http://localhost:8000/health
+curl -X POST http://localhost:8000/seed/
+```
+
+CastleMock:
+
+```bash
+curl http://localhost:8000/external/weather
+curl -X POST http://localhost:8000/external/auth/login
+curl -X PUT http://localhost:8000/external/user/update
 ```
