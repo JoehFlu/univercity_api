@@ -21,7 +21,7 @@
 ## 📦 Структура проекта
 
 ```text
-univercity_api/
+university_api/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── main.py
@@ -36,7 +36,7 @@ univercity_api/
 
 1. Перейди в папку проекта:
    ```bash
-   cd ~/univercity_api
+   cd ~/university_api
    ```
 
 2. Собери и запусти контейнеры:

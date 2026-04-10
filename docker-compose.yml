@@ -1,7 +1,7 @@
 services:
   api:
     build: .
-    container_name: univercity_api
+    container_name: university_api
     ports:
       - "8000:8000"
     depends_on:
