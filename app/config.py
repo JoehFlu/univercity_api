@@ -2,6 +2,8 @@ MONGO_URL = "mongodb://mongo:27017"
 MONGO_DB_NAME = "university_api"
 CASTLEMOCK_BASE_URL = "http://castlemock:8080/castlemock/mock/rest/project/QXcx23/application"
 CASTLEMOCK_TIMEOUT_SECONDS = 3
+APP_TITLE = "University API"
+APP_VERSION = "0.1.0"
 
 TAGS_METADATA = [
     {

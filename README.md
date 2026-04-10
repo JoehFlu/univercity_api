@@ -1,24 +1,28 @@
-# 📘 University API — FastAPI + MongoDB + CastleMock
+# University API — FastAPI + MongoDB + CastleMock
 
-## 🔎 Описание
+## Описание
 
 **University API** — это простой REST API на FastAPI с MongoDB в Docker.  
 В проекте есть CRUD для студентов, курсов и записей на курс, а также `seed`, проверка состояния и несколько мок-эндпоинтов через CastleMock.
 
 ---
 
-## ⚙️ Стек технологий
+## Стек технологий
 
 | Технология | Назначение |
 |------------|------------|
-| 🐍 FastAPI | REST API и backend |
-| 🍃 MongoDB | Хранение данных |
-| 🏰 CastleMock | Моки внешних API |
-| 🐳 Docker Compose | Запуск всего окружения |
+| FastAPI | REST API и backend |
+| MongoDB | Хранение данных |
+| PyMongo | Работа с MongoDB из Python |
+| Pydantic | Валидация моделей |
+| Faker | Генерация seed-данных |
+| Requests | HTTP-запросы к CastleMock |
+| CastleMock | Моки внешних API |
+| Docker Compose | Запуск всего окружения |
 
 ---
 
-## 📦 Структура проекта
+## Структура проекта
 
 ```text
 university_api/
@@ -40,7 +44,7 @@ university_api/
 Коротко по структуре:
 
 - `main.py` — точка входа приложения.
-- `app/app.py` — создание `FastAPI` и подключение роутов.
+- `app/app.py` — создание FastAPI и подключение роутов.
 - `app/db.py` — подключение к MongoDB и коллекции.
 - `app/models.py` — Pydantic-модели запросов и ответов.
 - `app/routers/` — эндпоинты по сущностям: students, courses, enrollments, utility, external.
@@ -48,7 +52,7 @@ university_api/
 
 ---
 
-## 🚀 Установка и запуск
+## Установка и запуск
 
 1. Перейди в папку проекта:
    ```bash
@@ -67,7 +71,7 @@ university_api/
 
 ---
 
-## 🗑️ Остановка и очистка
+## Остановка и очистка
 
 ```bash
 docker compose down
@@ -81,7 +85,7 @@ docker compose down -v
 
 ---
 
-## ⚙️ Требования
+## Требования
 
 | Требование | Примечание |
 |------------|------------|
@@ -99,7 +103,7 @@ python3 --version
 
 ---
 
-## 🌐 Доступ к сервисам
+## Доступ к сервисам
 
 | Сервис | URL | Описание |
 |--------|-----|-----------|
@@ -109,16 +113,16 @@ python3 --version
 
 ---
 
-## 🗂️ Основные эндпоинты FastAPI
+## Основные эндпоинты FastAPI
 
-### 🔧 Utility
+### Utility
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
 | `POST` | `/seed/` | Заполнить базу тестовыми данными |
 | `GET` | `/health` | Проверить состояние API |
 
-### 👩‍🎓 Students
+### Students
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
@@ -127,7 +131,7 @@ python3 --version
 | `PUT` | `/students/{id}` | Обновить студента |
 | `DELETE` | `/students/{id}` | Удалить студента |
 
-### 📚 Courses
+### Courses
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
@@ -136,7 +140,7 @@ python3 --version
 | `PUT` | `/courses/{id}` | Обновить курс |
 | `DELETE` | `/courses/{id}` | Удалить курс |
 
-### 📝 Enrollments
+### Enrollments
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
@@ -145,7 +149,7 @@ python3 --version
 | `PUT` | `/enrollments/{id}` | Обновить запись |
 | `DELETE` | `/enrollments/{id}` | Удалить запись |
 
-### 🏰 CastleMock
+### CastleMock
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
@@ -155,7 +159,7 @@ python3 --version
 
 ---
 
-## 📌 Коды ответов
+## Коды ответов
 
 | Код | Когда возвращается |
 |-----|-------------------|
@@ -167,13 +171,13 @@ python3 --version
 
 ---
 
-## 🏰 CastleMock
+## CastleMock
 
 CastleMock хранит моки в `castlemock_data_persistent/`, чтобы они не пропадали между перезапусками.
 
 ---
 
-## 🧪 Примеры запросов
+## Примеры запросов
 
 Быстрая проверка:
 

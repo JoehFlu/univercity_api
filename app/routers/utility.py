@@ -1,6 +1,7 @@
 from faker import Faker
 from fastapi import APIRouter
 
+from app.config import APP_TITLE, APP_VERSION
 from app.db import courses, enrollments, students
 
 
@@ -49,4 +50,8 @@ def seed_data():
 
 @router.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "service": APP_TITLE,
+        "version": APP_VERSION,
+    }

@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 
-from app.config import TAGS_METADATA
+from app.config import APP_TITLE, APP_VERSION, TAGS_METADATA
 from app.db import ensure_indexes
 from app.routers import courses, enrollments, external, students, utility
 
 
 app = FastAPI(
-    title="University API",
-    version="0.1.0",
+    title=APP_TITLE,
+    version=APP_VERSION,
     openapi_tags=TAGS_METADATA,
 )
 
