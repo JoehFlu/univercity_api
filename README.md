@@ -1,31 +1,44 @@
 # University API — FastAPI + MongoDB + CastleMock
 
-## Описание
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-latest-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 
-**University API** — это простой REST API на FastAPI с MongoDB в Docker.  
-В проекте есть CRUD для студентов, курсов и записей на курс, а также `seed`, проверка состояния и несколько мок-эндпоинтов через CastleMock.
+## О проекте
+
+**University API** — это REST API на FastAPI для управления студентами, курсами и записями на курсы.  
+Проект работает с MongoDB, запускается через Docker Compose и содержит набор мок-эндпоинтов через CastleMock.
+
+Основные возможности:
+
+- CRUD для студентов
+- CRUD для курсов
+- CRUD для записей на курсы
+- `seed` для быстрого заполнения базы тестовыми данными
+- `health` для проверки состояния API
+- примеры запросов к внешнему mock API
 
 ---
 
 ## Стек технологий
 
-| Технология | Назначение |
-|------------|------------|
-| FastAPI | REST API и backend |
-| MongoDB | Хранение данных |
-| PyMongo | Работа с MongoDB из Python |
-| Pydantic | Валидация моделей |
-| Faker | Генерация seed-данных |
-| Requests | HTTP-запросы к CastleMock |
-| CastleMock | Моки внешних API |
-| Docker Compose | Запуск всего окружения |
+- FastAPI
+- Uvicorn
+- MongoDB
+- PyMongo
+- Pydantic
+- Faker
+- Requests
+- CastleMock
+- Docker Compose
 
 ---
 
 ## Структура проекта
 
 ```text
-university_api/
+university-api/
 ├── app/
 │   ├── routers/
 │   ├── app.py
@@ -33,22 +46,23 @@ university_api/
 │   ├── db.py
 │   ├── models.py
 │   └── utils.py
+├── castlemock_data_persistent/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── main.py
 ├── requirements.txt
-├── README.md
-└── castlemock_data_persistent/
+└── README.md
 ```
 
 Коротко по структуре:
 
 - `main.py` — точка входа приложения.
-- `app/app.py` — создание FastAPI и подключение роутов.
-- `app/db.py` — подключение к MongoDB и коллекции.
+- `app/app.py` — создание FastAPI-приложения и подключение роутов.
+- `app/config.py` — конфигурация MongoDB, CastleMock и метаданных API.
+- `app/db.py` — подключение к базе и создание индексов.
 - `app/models.py` — Pydantic-модели запросов и ответов.
-- `app/routers/` — эндпоинты по сущностям: students, courses, enrollments, utility, external.
-- `app/utils.py` — общие вспомогательные функции.
+- `app/utils.py` — вспомогательные функции для `ObjectId` и CastleMock.
+- `app/routers/` — эндпоинты по сущностям и служебные маршруты.
 
 ---
 
@@ -56,7 +70,7 @@ university_api/
 
 1. Перейди в папку проекта:
    ```bash
-   cd ~/university_api
+   cd ~/Downloads/university-api
    ```
 
 2. Собери и запусти контейнеры:
@@ -64,20 +78,20 @@ university_api/
    docker compose up --build
    ```
 
-3. Проверь, что контейнеры запущены:
-   ```bash
-   docker ps
+3. Открой Swagger UI:
+   ```text
+   http://localhost:8000/docs
    ```
 
 ---
 
-## Остановка и очистка
+## Остановка
 
 ```bash
 docker compose down
 ```
 
-Если хочешь удалить данные MongoDB:
+Если нужно удалить данные MongoDB:
 
 ```bash
 docker compose down -v
@@ -87,13 +101,11 @@ docker compose down -v
 
 ## Требования
 
-| Требование | Примечание |
-|------------|------------|
-| Docker | Нужен для запуска проекта |
-| Docker Compose | Нужен для запуска сервисов |
-| Python 3.11+ | Только если запускаешь что-то локально вне Docker |
+- Docker
+- Docker Compose
+- Python 3.11+ только если планируешь запускать проект локально без Docker
 
-Проверка:
+Проверка окружения:
 
 ```bash
 docker --version
@@ -107,13 +119,14 @@ python3 --version
 
 | Сервис | URL | Описание |
 |--------|-----|-----------|
-| **FastAPI Docs** | [http://localhost:8000/docs](http://localhost:8000/docs) | Swagger UI |
-| **MongoDB** | `mongodb://localhost:27017` | База данных |
-| **CastleMock** | [http://localhost:8080/castlemock](http://localhost:8080/castlemock) | Интерфейс моков |
+| FastAPI Docs | [http://localhost:8000/docs](http://localhost:8000/docs) | Swagger UI |
+| OpenAPI schema | [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json) | Схема API |
+| MongoDB | `mongodb://localhost:27017` | База данных |
+| CastleMock | [http://localhost:8080/castlemock](http://localhost:8080/castlemock) | Интерфейс моков |
 
 ---
 
-## Основные эндпоинты FastAPI
+## Основные эндпоинты
 
 ### Utility
 
@@ -126,34 +139,34 @@ python3 --version
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
-| `GET` | `/students/` | Получить всех студентов |
-| `POST` | `/students/` | Создать нового студента |
-| `PUT` | `/students/{id}` | Обновить студента |
-| `DELETE` | `/students/{id}` | Удалить студента |
+| `GET` | `/students/` | Получить список студентов |
+| `POST` | `/students/` | Создать студента |
+| `PUT` | `/students/{student_id}` | Обновить студента |
+| `DELETE` | `/students/{student_id}` | Удалить студента |
 
 ### Courses
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
 | `GET` | `/courses/` | Получить список курсов |
-| `POST` | `/courses/` | Добавить курс |
-| `PUT` | `/courses/{id}` | Обновить курс |
-| `DELETE` | `/courses/{id}` | Удалить курс |
+| `POST` | `/courses/` | Создать курс |
+| `PUT` | `/courses/{course_id}` | Обновить курс |
+| `DELETE` | `/courses/{course_id}` | Удалить курс |
 
 ### Enrollments
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
-| `GET` | `/enrollments/` | Получить все записи |
+| `GET` | `/enrollments/` | Получить список записей |
 | `POST` | `/enrollments/` | Записать студента на курс |
-| `PUT` | `/enrollments/{id}` | Обновить запись |
-| `DELETE` | `/enrollments/{id}` | Удалить запись |
+| `PUT` | `/enrollments/{enrollment_id}` | Обновить запись |
+| `DELETE` | `/enrollments/{enrollment_id}` | Удалить запись |
 
 ### CastleMock
 
 | Метод | Эндпоинт | Описание |
 |-------|----------|-----------|
-| `GET` | `/external/weather` | Мок погоды |
+| `GET` | `/external/weather` | Мок прогноза погоды |
 | `POST` | `/external/auth/login` | Мок логина |
 | `PUT` | `/external/user/update` | Мок обновления профиля |
 
@@ -164,26 +177,29 @@ python3 --version
 | Код | Когда возвращается |
 |-----|-------------------|
 | `200` | Успешный ответ |
-| `400` | Битый `id`, дубликат email или enrollment |
+| `400` | Некорректный `id`, дубликат email или enrollment |
 | `404` | Сущность не найдена |
-| `422` | Ошибка валидации тела запроса |
+| `422` | Ошибка валидации входных данных |
 | `502` | CastleMock недоступен |
-
----
-
-## CastleMock
-
-CastleMock хранит моки в `castlemock_data_persistent/`, чтобы они не пропадали между перезапусками.
 
 ---
 
 ## Примеры запросов
 
-Быстрая проверка:
+Быстрая проверка API:
 
 ```bash
 curl http://localhost:8000/health
 curl -X POST http://localhost:8000/seed/
+```
+
+Работа со студентами:
+
+```bash
+curl http://localhost:8000/students/
+curl -X POST http://localhost:8000/students/ \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Ivan Petrov","age":21,"email":"ivan@example.com"}'
 ```
 
 CastleMock:
@@ -193,3 +209,12 @@ curl http://localhost:8000/external/weather
 curl -X POST http://localhost:8000/external/auth/login
 curl -X PUT http://localhost:8000/external/user/update
 ```
+
+---
+
+## Примечания
+
+- Индексы создаются автоматически при старте приложения.
+- У студентов уникальный `email`.
+- У записей на курс уникальная комбинация `student_id + course_id`.
+- Данные CastleMock сохраняются в `castlemock_data_persistent/`, поэтому не теряются после перезапуска контейнеров.
